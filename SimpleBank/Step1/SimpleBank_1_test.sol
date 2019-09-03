@@ -1,41 +1,20 @@
-pragma solidity >=0.4.0 <0.6.0;
-      import "remix_tests.sol"; // this import is automatically injected by Remix.
 
-      // file name has to end with '_test.sol'
-      contract test_1 {
+pragma solidity >=0.4.22 <0.6.0;
+import "remix_tests.sol"; // this import is automatically injected by Remix.
+import "./SimpleBank.sol";
 
-        function beforeAll() public {
-          // here should instantiate tested contract
-          Assert.equal(uint(4), uint(3), "error in before all function");
-        }
-
-        function check1() public {
-          // use 'Assert' to test the contract
-          Assert.equal(uint(2), uint(1), "error message");
-          Assert.equal(uint(2), uint(2), "error message");
-        }
-
-        function check2() public view returns (bool) {
-          // use the return value (true or false) to test the contract
-          return true;
-        }
-      }
-
-    contract test_2 {
-
-      function beforeAll() public {
-        // here should instantiate tested contract
-        Assert.equal(uint(4), uint(3), "error in before all function");
-      }
-
-      function check1() public {
-        // use 'Assert' to test the contract
-        Assert.equal(uint(2), uint(1), "error message");
-        Assert.equal(uint(2), uint(2), "error message");
-      }
-
-      function check2() public view returns (bool) {
-        // use the return value (true or false) to test the contract
-        return true;
-      }
+contract test3 {
+   
+    SimpleBank contractToTest;
+    function beforeAll () public {
+       contractToTest = new SimpleBank();
     }
+    
+    function testEnrolled () public returns(bool){
+        Assert.equal(contractToTest.enrolled(address(0)), uint(0), "it should be 0");
+    }
+    
+    function testOwner () public view returns (bool) {
+        return contractToTest.owner() == msg.sender;
+    }
+}
